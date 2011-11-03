@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@+id/scrollView1"
+	xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical" android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<LinearLayout android:id="@+id/linearLayout1"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:orientation="vertical">
+			<TextView android:text="Accelerometer" android:id="@+id/textView1"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TableLayout android:id="@+id/tableLayout1"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/tableRow1"
+					android:layout_width="wrap_content">
+					<TextView android:text="X" android:layout_height="wrap_content"
+						android:id="@+id/textView2" android:layout_width="wrap_content"></TextView>
+					<TextView android:layout_height="wrap_content"
+						android:id="@+id/xAccel" android:layout_width="wrap_content"
+						android:layout_marginLeft="5dp" android:text="OFF"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/tableRow2"
+					android:layout_width="wrap_content">
+					<TextView android:text="Y" android:layout_height="wrap_content"
+						android:id="@+id/textView3" android:layout_width="wrap_content"></TextView>
+					<TextView android:layout_height="wrap_content"
+						android:id="@+id/yAccel" android:layout_width="wrap_content"
+						android:layout_marginLeft="5dp" android:text="OFF"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/tableRow3"
+					android:layout_width="wrap_content">
+					<TextView android:text="Z" android:layout_height="wrap_content"
+						android:id="@+id/textView4" android:layout_width="wrap_content"></TextView>
+					<TextView android:layout_height="wrap_content"
+						android:id="@+id/zAccel" android:layout_width="wrap_content"
+						android:layout_marginLeft="5dp" android:text="OFF"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/LinearLayout02" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="wrap_content" android:visibility="gone">
+			<TextView android:id="@+id/TextView07" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gravity"></TextView>
+			<TableLayout android:id="@+id/TableLayout02" android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow03" android:layout_width="wrap_content">
+					<TextView android:text="X" android:layout_height="wrap_content" android:id="@+id/TextView06" android:layout_width="wrap_content"></TextView>
+					<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/xGravity" android:text="OFF"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow01" android:layout_width="wrap_content">
+					<TextView android:text="Y" android:layout_height="wrap_content" android:id="@+id/TextView09" android:layout_width="wrap_content"></TextView>
+					<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:text="OFF" android:id="@+id/yGravity"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow04" android:layout_width="wrap_content">
+					<TextView android:text="Z" android:layout_height="wrap_content" android:id="@+id/TextView08" android:layout_width="wrap_content"></TextView>
+					<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:text="OFF" android:id="@+id/zGravity"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="wrap_content" android:visibility="gone">
+			<TextView android:text="Linear Acceleration" android:id="@+id/TextView21" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TableLayout android:id="@+id/TableLayout04" android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow09" android:layout_width="wrap_content">
+					<TextView android:text="X" android:layout_height="wrap_content" android:id="@+id/TextView20" android:layout_width="wrap_content"></TextView>
+					<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/xLinAccel" android:text="OFF"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow08" android:layout_width="wrap_content">
+					<TextView android:text="Y" android:layout_height="wrap_content" android:id="@+id/TextView23" android:layout_width="wrap_content"></TextView>
+					<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/yLinAccel" android:text="OFF"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow10" android:layout_width="wrap_content">
+					<TextView android:text="Z" android:layout_height="wrap_content" android:id="@+id/TextView22" android:layout_width="wrap_content"></TextView>
+					<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/zLinAccel" android:text="OFF"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/LinearLayout03" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="wrap_content">
+			<TextView android:id="@+id/TextView14" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gyroscope"></TextView>
+			<TableLayout android:id="@+id/TableLayout03" android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow06" android:layout_width="wrap_content">
+					<TextView android:text="X" android:layout_height="wrap_content" android:id="@+id/TextView13" android:layout_width="wrap_content"></TextView>
+					<TextView android:text="OFF" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/xGyro"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow05" android:layout_width="wrap_content">
+					<TextView android:text="Y" android:layout_height="wrap_content" android:id="@+id/TextView16" android:layout_width="wrap_content"></TextView>
+					<TextView android:text="OFF" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/yGyro"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow07" android:layout_width="wrap_content">
+					<TextView android:text="Z" android:layout_height="wrap_content" android:id="@+id/TextView15" android:layout_width="wrap_content"></TextView>
+					<TextView android:text="OFF" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/zGyro"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/LinearLayout05" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="wrap_content" android:visibility="gone">
+			<TextView android:id="@+id/TextView28" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Rotation Vector"></TextView>
+			<TableLayout android:id="@+id/TableLayout05" android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow12" android:layout_width="wrap_content">
+					<TextView android:text="X" android:layout_height="wrap_content" android:id="@+id/TextView27" android:layout_width="wrap_content"></TextView>
+					<TextView android:text="OFF" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/xRotVec"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow11" android:layout_width="wrap_content">
+					<TextView android:text="Y" android:layout_height="wrap_content" android:id="@+id/TextView30" android:layout_width="wrap_content"></TextView>
+					<TextView android:text="OFF" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/yRotVec"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow13" android:layout_width="wrap_content">
+					<TextView android:text="Z" android:layout_height="wrap_content" android:id="@+id/TextView29" android:layout_width="wrap_content"></TextView>
+					<TextView android:text="OFF" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/zRotVec"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/LinearLayout06" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="wrap_content">
+			<TextView android:id="@+id/TextView36" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Magnetic Field"></TextView>
+			<TableLayout android:id="@+id/TableLayout06" android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow16" android:layout_width="wrap_content">
+					<TextView android:text="X" android:layout_height="wrap_content" android:id="@+id/TextView37" android:layout_width="wrap_content"></TextView>
+					<TextView android:text="OFF" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/xMag"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow14" android:layout_width="wrap_content">
+					<TextView android:text="Y" android:layout_height="wrap_content" android:id="@+id/TextView33" android:layout_width="wrap_content"></TextView>
+					<TextView android:text="OFF" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/yMag"></TextView>
+				</TableRow>
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow15" android:layout_width="wrap_content">
+					<TextView android:text="Z" android:layout_height="wrap_content" android:id="@+id/TextView35" android:layout_width="wrap_content"></TextView>
+					<TextView android:text="OFF" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/zMag"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/LinearLayout01"
+			android:layout_width="fill_parent" android:orientation="vertical"
+			android:layout_height="wrap_content" android:layout_marginTop="5dp">
+			<TextView android:id="@+id/TextView05"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Ambient Temperature"></TextView>
+			<TableLayout android:id="@+id/TableLayout01"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow02"
+					android:layout_width="wrap_content">
+					<TextView android:layout_height="wrap_content" android:id="@+id/TextView04"
+						android:layout_width="wrap_content" android:text="degrees C"></TextView>
+					<TextView android:layout_height="wrap_content"
+						android:layout_width="wrap_content" android:layout_marginLeft="5dp"
+						android:id="@+id/temperature" android:text="(OFF)"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		<LinearLayout android:layout_marginTop="5dp" android:id="@+id/LinearLayout07" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="wrap_content">
+			<TextView android:id="@+id/TextView40" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Light"></TextView>
+			<TableLayout android:id="@+id/TableLayout07" android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow17" android:layout_width="wrap_content">
+					<TextView android:layout_height="wrap_content" android:id="@+id/TextView39" android:layout_width="wrap_content" android:text="lux"></TextView>
+					<TextView android:text="(OFF)" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/light"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		<LinearLayout android:layout_marginTop="5dp" android:id="@+id/LinearLayout08" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="wrap_content">
+			<TextView android:id="@+id/TextView46" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Proximity"></TextView>
+			<TableLayout android:id="@+id/TableLayout09" android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow18" android:layout_width="wrap_content">
+					<TextView android:layout_height="wrap_content" android:id="@+id/TextView44" android:layout_width="wrap_content" android:text="cm"></TextView>
+					<TextView android:text="(OFF)" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/proximity"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		<LinearLayout android:layout_marginTop="5dp" android:id="@+id/LinearLayout09" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="wrap_content">
+			<TextView android:id="@+id/TextView45" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Air Pressure"></TextView>
+			<TableLayout android:id="@+id/TableLayout08" android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow19" android:layout_width="wrap_content">
+					<TextView android:layout_height="wrap_content" android:id="@+id/TextView42" android:layout_width="wrap_content" android:text="hPa (millibar)"></TextView>
+					<TextView android:text="(OFF)" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/pressure"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		<LinearLayout android:layout_marginTop="5dp" android:id="@+id/LinearLayout10" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="wrap_content">
+			<TextView android:id="@+id/TextView52" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Relative Humidity"></TextView>
+			<TableLayout android:id="@+id/TableLayout11" android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/TableRow20" android:layout_width="wrap_content">
+					<TextView android:layout_height="wrap_content" android:id="@+id/TextView50" android:layout_width="wrap_content" android:text="%"></TextView>
+					<TextView android:text="(OFF)" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginLeft="5dp" android:id="@+id/humidity"></TextView>
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>
