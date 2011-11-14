@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sensorName"
+    android:layout_width="fill_parent"
+    android:layout_height="70dp"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    android:text="Large Text"
+    android:textAppearance="?android:attr/textAppearanceLarge" />
+

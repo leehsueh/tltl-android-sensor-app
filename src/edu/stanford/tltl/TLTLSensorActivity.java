@@ -1,5 +1,7 @@
 package edu.stanford.tltl;
 
+import java.util.List;
+
 import android.app.Activity;
 
 // for hardware
@@ -42,7 +44,13 @@ public class TLTLSensorActivity extends Activity implements SensorEventListener,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.sensor_readings_list);
+		
+		// get sampling rate from main view
+		Bundle extras = getIntent().getExtras();
+		if (extras.containsKey(MainMenuActivity.RATE_KEY)) {
+			mSensorSamplingRate = extras.getInt(MainMenuActivity.RATE_KEY);
+		}
 
 		// set up the sensor manager
 		if (mUserSimulator) {
@@ -112,10 +120,7 @@ public class TLTLSensorActivity extends Activity implements SensorEventListener,
 		} else {
 			int[] sensorTypes = {
 					Sensor.TYPE_ACCELEROMETER,
-					//Sensor.TYPE_GRAVITY,
 					Sensor.TYPE_GYROSCOPE,
-					//Sensor.TYPE_LINEAR_ACCELERATION,
-					//Sensor.TYPE_ROTATION_VECTOR,
 					Sensor.TYPE_MAGNETIC_FIELD,
 					Sensor.TYPE_TEMPERATURE,
 					Sensor.TYPE_PRESSURE,

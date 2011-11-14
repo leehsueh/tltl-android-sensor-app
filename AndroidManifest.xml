@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="edu.stanford.tltl"
-      android:versionCode="1"
-      android:versionName="1.0">
+    package="edu.stanford.tltl"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
     <uses-sdk android:minSdkVersion="7" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name"
-    			android:debuggable="true">
-        <activity android:name=".TLTLSensorActivity"
-                  android:label="@string/app_name">
-            <intent-filter>
+    <application
+        android:debuggable="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <activity
+            android:label="@string/app_name"
+            android:name=".MainMenuActivity" >
+            <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".TLTLSensorActivity" >
+        </activity>
+        <activity android:name=".SensorDetailActivity" >
+        </activity>
+        <activity android:name=".SensorRecordActivity" >
+        </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+
 </manifest>
