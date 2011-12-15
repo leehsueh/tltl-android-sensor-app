@@ -89,9 +89,9 @@ public final class R {
         public static final int chronometer1=0x7f06000b;
         public static final int countDown=0x7f060009;
         public static final int dataComponents=0x7f06007c;
-        public static final int dataNotes=0x7f060080;
-        public static final int dataTimestamp=0x7f06007f;
-        public static final int dataTitle=0x7f06007e;
+        public static final int dataNotes=0x7f060081;
+        public static final int dataTimestamp=0x7f060080;
+        public static final int dataTitle=0x7f06007f;
         public static final int doneButton=0x7f060014;
         public static final int editName=0x7f06007a;
         public static final int editNotes=0x7f06007b;
@@ -102,9 +102,9 @@ public final class R {
         public static final int linearLayout2=0x7f060002;
         public static final int linearLayout3=0x7f060001;
         public static final int listDataButton=0x7f060007;
-        public static final int menu_delete=0x7f060082;
-        public static final int menu_detail=0x7f060081;
-        public static final int okButton=0x7f06007d;
+        public static final int menu_delete=0x7f060083;
+        public static final int menu_detail=0x7f060082;
+        public static final int okButton=0x7f06007e;
         public static final int pressure=0x7f060073;
         public static final int proximity=0x7f06006d;
         public static final int rateText=0x7f060003;
@@ -127,6 +127,7 @@ public final class R {
         public static final int textView2=0x7f06000a;
         public static final int textView3=0x7f06001b;
         public static final int textView4=0x7f06001e;
+        public static final int writeToFileButton=0x7f06007d;
         public static final int xAccel=0x7f060019;
         public static final int xGravity=0x7f060025;
         public static final int xGyro=0x7f06003d;
@@ -171,5 +172,6 @@ public final class R {
         public static final int record_enter_a_name=0x7f040002;
         public static final int record_save_notes_hint=0x7f040003;
         public static final int saved_data_list_title=0x7f040004;
+        public static final int write_to_file_button_text=0x7f040008;
     }
 }

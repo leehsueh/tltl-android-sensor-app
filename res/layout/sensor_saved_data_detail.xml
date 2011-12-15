@@ -37,6 +37,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
+        android:id="@+id/writeToFileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/write_to_file_button_text" />
+
+    <Button
         android:id="@+id/okButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

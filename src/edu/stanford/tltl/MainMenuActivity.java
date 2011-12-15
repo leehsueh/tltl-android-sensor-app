@@ -41,6 +41,9 @@ public class MainMenuActivity extends ListActivity {
 	public static final String REC_PROXIMITY = "REC_PROXIMITY";
 	public static final String REC_AMBIENT_LIGHT = "REC_AMBIENT_LIGHT";
 	
+	// directory where data files can be stored
+	public static final String DATA_DIR = "TLTL_Sensor_Data";
+	
 	
 	public static final int[] SAMPLE_RATES = {
 		SensorManager.SENSOR_DELAY_UI,

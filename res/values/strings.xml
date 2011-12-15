@@ -8,4 +8,5 @@
     <string name="list_data_button_text">Saved Data</string>
     <string name="record_button_text">Record</string>
     <string name="live_outputs_button_text">Live Outputs</string>
+    <string name="write_to_file_button_text">Create File</string>
 </resources>
