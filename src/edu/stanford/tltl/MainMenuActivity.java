@@ -70,7 +70,7 @@ public class MainMenuActivity extends ListActivity {
 	ListView mSensorList;
 	RadioGroup mSampleRateRadioGroup;
 	SeekBar mSampleSlider;
-	Button mListOutputs, mRecord;
+	Button mListOutputsButton, mRecordButton, mListDataButton;
 	
 	private String[] sensorNames;
 	private int[] sensorTypes;
@@ -129,9 +129,17 @@ public class MainMenuActivity extends ListActivity {
 			}
 		});
 		
-		mListOutputs = (Button) findViewById(R.id.button2);
-		mListOutputs.setOnClickListener(new OnClickListener() {
-			
+		mListDataButton = (Button) findViewById(R.id.listDataButton);
+		mListDataButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainMenuActivity.this, SensorDataListActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		mListOutputsButton = (Button) findViewById(R.id.button2);
+		mListOutputsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainMenuActivity.this, TLTLSensorActivity.class);
@@ -139,8 +147,8 @@ public class MainMenuActivity extends ListActivity {
 				startActivity(intent);
 			}
 		});
-		mRecord = (Button) findViewById(R.id.button3);
-		mRecord.setOnClickListener(new OnClickListener() {
+		mRecordButton = (Button) findViewById(R.id.button3);
+		mRecordButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

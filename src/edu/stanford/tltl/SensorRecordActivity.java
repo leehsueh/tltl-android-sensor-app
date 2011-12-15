@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -15,31 +19,48 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.Chronometer.OnChronometerTickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 public class SensorRecordActivity extends Activity implements SensorEventListener  {
 	public static final String TIME_KEY = "Time";
 	public static final String[] COMPONENT_KEYS = {"Values[0]", "Values[1]", "Values[2]"};
+	public static final int DIALOG_SAVE_ID = 1;
+	public static final int DIALOG_SAVE_ERROR_ID = 2;
 	
 	private ListView mParamsToRecord;
 	private Map<Integer, Map<String, List<Float> > > sensorData;	// sensor type maps to another map where "Time" -> time values; "SensorComponent" -> sensor values
-	private Map<Integer, ArrayList<Integer>> componentsToRecord;
+	private Map<Integer, ArrayList<Integer>> componentsToRecord;	// sensor type maps to list of components of the sensor to record
 	
 	private long mStartTime, mStopTime;
 	private boolean mRecording;
 	private SensorManager mSensorManager;
 	private int mSampleRate;
 	
-	private Button mStopButton;
+	private Button mStopButton, mSaveButton;
 	private TextView mCountDown;
 	private Chronometer mChronometer;
 	
+	private SensorDataDB mDB;
+	
+	/**
+	 * Set up the sensors and initial data structures for data to be recorded
+	 */
 	private void setup() {
 		mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 		Map<Integer, String[]> sensorPrefKeys = new HashMap<Integer, String[]>();
@@ -79,7 +100,7 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 		for (int sensorType : sensorTypes) {
 			// look through pref to see if this sensor needs to be recorded
 			boolean sensorNeeded = false;
-			ArrayList<Integer> valueIndices = null;
+			ArrayList<Integer> valueIndices = null;	// value index corresponds to the SensorEvent.values array
 			String[] keys = sensorPrefKeys.get(sensorType);
 			for (int i = 0; i < keys.length; i++) {
 				boolean record = settings.getBoolean(keys[i], false);
@@ -93,6 +114,9 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 			if (sensorNeeded) {
 				ArrayList<Float> timeValues = new ArrayList<Float>();
 				componentsToRecord.put(sensorType, valueIndices);
+				
+				// instantiate data structure to store data points
+				// map contains sets of data indexed by a key; each set of sensor data includes time, so put that in first
 				HashMap<String, List<Float>> m = new HashMap<String, List<Float>>();
 				m.put(TIME_KEY, timeValues);
 				for (Integer i : valueIndices) {
@@ -113,13 +137,19 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 		}
 	}
 	
+	/* Activity lifecycle */
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.record);
+		
+		// get the sampling rate saved from the home screen
 		Bundle extras = getIntent().getExtras();
 		mSampleRate = extras.getInt(MainMenuActivity.RATE_KEY);
 		setup();
+		
+		// set up UI
 		TextView tv = (TextView) findViewById(R.id.textView2);
 		tv.setText("");
 		for (Map.Entry<Integer, ArrayList<Integer>> e : componentsToRecord.entrySet()) {
@@ -131,7 +161,18 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 			}
 		}
 		
-		mChronometer = (Chronometer) findViewById(R.id.chronometer1);
+		// set up the save button
+		mSaveButton = (Button) findViewById(R.id.saveButton);
+		mSaveButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// bring up an alert dialog to prompt user to type a name
+				showDialog(DIALOG_SAVE_ID);
+				
+			}
+		});
+				
+		// set up the stop button
 		mStopButton = (Button) findViewById(R.id.stopButton);
 		mStopButton.setOnClickListener(new OnClickListener() {
 			
@@ -143,13 +184,13 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 				// unregister sensors
 				mSensorManager.unregisterListener(SensorRecordActivity.this);
 				
-				// TODO: save data
 				Log.v(MainMenuActivity.LOG_TAG, "Recording stopped.");
 				
 				mCountDown.setText("Done.");
 				mChronometer.stop();
 				mStopTime = System.nanoTime();
-
+				
+				// display number of data points for recorded for each sensor component
 				TextView tv = (TextView) findViewById(R.id.textView2);
 				tv.setText("");
 				for (Map.Entry<Integer, ArrayList<Integer>> e : componentsToRecord.entrySet()) {
@@ -160,11 +201,16 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 						tv.setText(text);
 					}
 				}
+				
+				// hide the stop button; show the save button
+				mStopButton.setVisibility(Button.INVISIBLE);
+				mSaveButton.setVisibility(Button.VISIBLE);
 			}
-		});
-		mCountDown = (TextView) findViewById(R.id.countDown);
+		});		
 		
-		// start countdown timer
+		// start countdown timer and chronometer timer
+		mChronometer = (Chronometer) findViewById(R.id.chronometer1);
+		mCountDown = (TextView) findViewById(R.id.countDown);
 		new CountDownTimer(5000, 1000) {
 
 		     public void onTick(long millisUntilFinished) {
@@ -177,15 +223,14 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 		    	 mRecording = true;
 		    	 mStartTime = System.nanoTime();
 		    	 
-		         //textGoesHere = (TextView) findViewById(R.id.textGoesHere);
-		         mChronometer.setOnChronometerTickListener(new OnChronometerTickListener(){
-		             @Override
-		             public void onChronometerTick(Chronometer arg0) {
-		                 long countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
-		                 String asText = (countUp / 60) + ":" + (countUp % 60); 
-		                 
-		             }
-		         });
+		    	 // set up chronometer for recording time
+//		         mChronometer.setOnChronometerTickListener(new OnChronometerTickListener(){
+//		             @Override
+//		             public void onChronometerTick(Chronometer arg0) {
+//		                 long countUp = (SystemClock.elapsedRealtime() - arg0.getBase()) / 1000;
+//		                 String asText = (countUp / 60) + ":" + (countUp % 60); 
+//		             }
+//		         });
 		         mChronometer.setBase(SystemClock.elapsedRealtime());
 		         mChronometer.start();
 		     }
@@ -198,6 +243,86 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 		// unregister sensors
 		mSensorManager.unregisterListener(SensorRecordActivity.this);
 	}
+	
+	/* dialog stuff */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Context mContext = getApplicationContext();		
+		AlertDialog.Builder builder;
+		AlertDialog alertDialog;
+		builder = new AlertDialog.Builder(this);
+		
+		switch(id) {
+	    case DIALOG_SAVE_ID:
+	    	LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+			View layout = inflater.inflate(R.layout.record_save_dialog,
+			                               (ViewGroup) findViewById(R.id.layout_root));
+
+			builder.setView(layout);
+	    	builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Log.v(MainMenuActivity.LOG_TAG, "Cancel!");
+					dialog.cancel();
+					removeDialog(which);
+				}
+			});
+	    	builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					AlertDialog ad = (AlertDialog) dialog;
+					EditText nameField = (EditText) ad.findViewById(R.id.saveName);
+					EditText notesField = (EditText) ad.findViewById(R.id.saveNotes);
+
+					// save data
+					Log.v(MainMenuActivity.LOG_TAG, "Save with name " + nameField.getText() + "!");
+					long timestamp = System.currentTimeMillis();
+					String title = nameField.getText().toString();
+					String notes = notesField.getText().toString();
+				    
+					try {
+					    // set up and open the database
+					    mDB = new SensorDataDB(SensorRecordActivity.this);
+					    
+						// serialize sensor data into bytes
+						byte[] byteArray = mDB.serializableObjectToByteArray((Serializable)sensorData);
+					    
+					    mDB.open();
+					    
+					    // add row
+					    mDB.createRow(mDB.createContentValues(title, notes, timestamp, byteArray, sensorData.keySet()));
+					    mDB.close();
+	
+					} catch (IOException ioe) {
+						Log.v(MainMenuActivity.LOG_TAG, "Error in byte operations!\n" + ioe.getMessage());
+						showDialog(DIALOG_SAVE_ERROR_ID);
+					} finally {
+						finish();
+					}
+				}
+			});
+			alertDialog = builder.create();
+
+			break;
+	    case DIALOG_SAVE_ERROR_ID:
+	    	builder.setMessage("There was an error saving data!");
+	    	builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+	    	alertDialog = builder.create();
+	    	break;
+	    default:
+	        alertDialog = null;
+	    }
+		
+		return alertDialog;
+	}
+	
+	/* Sensor stuff */
 	
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {

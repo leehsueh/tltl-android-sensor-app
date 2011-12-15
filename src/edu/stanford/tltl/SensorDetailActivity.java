@@ -80,20 +80,11 @@ public class SensorDetailActivity extends ListActivity {
 		SimpleAdapter simpleAdapter = new SimpleAdapter(this, valuesList, R.layout.sensor_component_list_item, from, to);
 		setListAdapter(simpleAdapter);
 		
-		Button cancelButton = (Button) findViewById(R.id.cancelButton);	// go back
-		cancelButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+		// configure the Done button
 		Button doneButton = (Button) findViewById(R.id.doneButton);	// save and go back
 		doneButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				
 				finish();
 			}
 		});

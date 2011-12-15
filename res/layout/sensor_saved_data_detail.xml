@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <!-- maybe better to have text here to label to the two EditTexts for the user -->
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:hint="@string/record_enter_a_name"
+        android:textSize="24dp" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editNotes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1.06"
+        android:hint="@string/record_save_notes_hint"
+        android:text=""
+        android:textSize="18dp" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/dataComponents"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1638.86"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/okButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:text="@android:string/ok" />
+
+</LinearLayout>

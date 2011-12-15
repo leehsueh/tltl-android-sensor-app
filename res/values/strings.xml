@@ -2,4 +2,10 @@
 <resources>
     <string name="hello">Hello World, TLTLSensorActivity!</string>
     <string name="app_name">TLTLSensor</string>
+    <string name="record_enter_a_name">Enter a name</string>
+    <string name="record_save_notes_hint">Enter notes</string>
+    <string name="saved_data_list_title">Saved Sensor Recordings</string>
+    <string name="list_data_button_text">Saved Data</string>
+    <string name="record_button_text">Record</string>
+    <string name="live_outputs_button_text">Live Outputs</string>
 </resources>

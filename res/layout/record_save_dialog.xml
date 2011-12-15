@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/layout_root"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical"
+	    android:padding="10dp" >
+
+	    <EditText
+	        android:id="@+id/saveName"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/record_enter_a_name" >
+
+	        <requestFocus />
+	    </EditText>
+
+	    <EditText
+	        android:id="@+id/saveNotes"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="0.14"
+	        android:hint="@string/record_save_notes_hint"
+	        android:inputType="text|textImeMultiLine|textMultiLine|textNoSuggestions"
+	        android:singleLine="false" />
+
+	</LinearLayout>

@@ -28,14 +28,6 @@
             android:paddingBottom="10dp" android:paddingTop="10dp">
 
             <Button
-                android:id="@+id/cancelButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|fill_horizontal"
-                android:layout_weight="0.50"
-                android:text="Cancel" />
-
-            <Button
                 android:id="@+id/doneButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
