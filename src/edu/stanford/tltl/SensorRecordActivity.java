@@ -37,13 +37,24 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/**
+ * This class describes the record mode activity view.
+ * When the view is first initiated, a countdown is shown to give a few seconds to prep.
+ * Once the countdown is finished, recording begins until the user presses the Stop button.
+ * Data is recorded into an object sensorData, which is a map of maps (refer to SensorDataJavaStructre.pdf under doc/resources).
+ * 
+ * When user presses Stop, a save button appears. If save is pressed, a dialog pops up prompting for a title and notes for
+ *  the data set. When that is complete, a record is inserted into the sqlite database.
+ * @author leehsueh
+ *
+ */
 public class SensorRecordActivity extends Activity implements SensorEventListener  {
 	public static final String TIME_KEY = "Time";
 	public static final String[] COMPONENT_KEYS = {"Values[0]", "Values[1]", "Values[2]"};
 	public static final int DIALOG_SAVE_ID = 1;
 	public static final int DIALOG_SAVE_ERROR_ID = 2;
 	
-	private ListView mParamsToRecord;
+	//private ListView mParamsToRecord;
 	private Map<Integer, Map<String, List<Float> > > sensorData;	// sensor type maps to another map where "Time" -> time values; "SensorComponent" -> sensor values
 	private Map<Integer, ArrayList<Integer>> componentsToRecord;	// sensor type maps to list of components of the sensor to record
 	
@@ -52,10 +63,12 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 	private SensorManager mSensorManager;
 	private int mSampleRate;
 	
+	/* UI widget stuff */
 	private Button mStopButton, mSaveButton;
 	private TextView mCountDown;
 	private Chronometer mChronometer;
 	
+	/* database for saving the data if desired */
 	private SensorDataDB mDB;
 	
 	/**
@@ -95,6 +108,8 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 				Sensor.TYPE_PROXIMITY,
 				Sensor.TYPE_LIGHT
 		};
+		
+		// iterate through the SharedPreferences using the sensorPrefKeys to determine which components for which sensors to record.
 		componentsToRecord = new HashMap<Integer, ArrayList<Integer>>();
 		sensorData = new HashMap<Integer, Map<String, List<Float> >>();
 		for (int sensorType : sensorTypes) {
@@ -254,6 +269,7 @@ public class SensorRecordActivity extends Activity implements SensorEventListene
 		
 		switch(id) {
 	    case DIALOG_SAVE_ID:
+	    	// custom dialog for allowing user to enter text input for title and notes
 	    	LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
 			View layout = inflater.inflate(R.layout.record_save_dialog,
 			                               (ViewGroup) findViewById(R.id.layout_root));

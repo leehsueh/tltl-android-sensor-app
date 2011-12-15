@@ -18,14 +18,20 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+/**
+ * This class describes a drill down view for each sensor, allowing the user to mark
+ * which components of the sensor they want to record in record mode.
+ * @author leehsueh
+ *
+ */
 public class SensorDetailActivity extends ListActivity {
 	// map keys
 	public static final String SENSOR_COMPONENT_NAME = "SENSOR_COMPONENT_NAME";
 	public static final String REC_SENSOR_COMPONENT = "REC_SENSOR_COMPONENT";
 	public static final String PREF_KEY = "PREF_KEY";
 	
+	/* list of maps to map from sensor types to components of that sensor */
 	private List<Map<String, Object>> valuesList;
-	
 	private void initializeValuesList() {
 		if (valuesList == null) {
 			valuesList = new LinkedList<Map<String, Object>>();
@@ -46,7 +52,6 @@ public class SensorDetailActivity extends ListActivity {
 			}
 		}
 	}
-	
 	private void addEntry(String prefKey, String componentName) {
 		SharedPreferences settings = getSharedPreferences(MainMenuActivity.PREFS_NAME, 0);
 		Map<String, Object> entry = new HashMap<String, Object>(2);
@@ -55,6 +60,8 @@ public class SensorDetailActivity extends ListActivity {
 		entry.put(REC_SENSOR_COMPONENT, settings.getBoolean(prefKey, false));
 		valuesList.add(entry);
 	}
+	
+	/* sensor information */
 	private String mSensorName;
 	private int mSensorType;
 	
@@ -63,6 +70,7 @@ public class SensorDetailActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sensor_components_list);
 		
+		// get the sensor name and type which should be passed from the MainMenuActivity
 		Bundle extras = getIntent().getExtras();
 		if (extras.containsKey(MainMenuActivity.SENSOR_TYPE)) {
 			mSensorType = extras.getInt(MainMenuActivity.SENSOR_TYPE);
@@ -91,6 +99,12 @@ public class SensorDetailActivity extends ListActivity {
 	}
 	
 	@Override
+	/**
+	 * When clicked on, the component should be toggled record/not record, 
+	 * and the value stored in SharedPreferences to persist. This allows
+	 * the recording mode activity (SensorRecordActivity) to access what
+	 * components should be recorded or not.
+	 */
 	protected void onListItemClick(ListView l, View v, int position, long rowId) {
 		super.onListItemClick(l, v, position, rowId);
 		Log.v(MainMenuActivity.LOG_TAG, "Row " + position + " was tapped");

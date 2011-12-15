@@ -12,15 +12,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
+/**
+ * This class describes the screen that lists the saved recorded sensor data that is
+ * stored in the database. When an item in the list is long-pressed, a context menu
+ * appears which gives the user the option to view or delete the data set.
+ * @author leehsueh
+ *
+ */
 public class SensorDataListActivity extends ListActivity{
+	/* database stuff */
 	private SensorDataDB mDB;
 	private SimpleCursorAdapter mCursorAdapter;
 	
@@ -69,20 +74,21 @@ public class SensorDataListActivity extends ListActivity{
  	}
 	
 	@Override
+	/**
+	 * if user clicks on a list item, go to the detail view for that dataset
+	 */
  	protected void onListItemClick(ListView l, View v, int position, long rowId) {
  		super.onListItemClick(l, v, position, rowId);
-		startDetail(rowId, false);
+		startDetail(rowId);
  	}
  	
  	public static final String EXTRA_ROWID = "rowid";
  	
  	// Starts the detail activity, either edit existing or create new.
- 	public void startDetail(long rowId, boolean create) {
+ 	public void startDetail(long rowId) {
  		Intent intent = new Intent(this, SensorDataDetailActivity.class);
- 		// Our convention: add rowId to edit existing. To create add nothing.
- 		if (!create) {
- 			intent.putExtra(EXTRA_ROWID, rowId);
- 		}
+ 		// Our convention: add rowId to edit existing.
+ 		intent.putExtra(EXTRA_ROWID, rowId);
  		startActivity(intent);
  	}
  	
@@ -102,7 +108,7 @@ public class SensorDataListActivity extends ListActivity{
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
 			case R.id.menu_detail:
-				startDetail(info.id, false);
+				startDetail(info.id);
 				return true;
 				
 			case R.id.menu_delete:

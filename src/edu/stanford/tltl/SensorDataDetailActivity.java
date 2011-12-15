@@ -20,14 +20,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * This activity describes the screen where a recorded data set is viewed.
+ * Currently it serves to allow the user to edit the title and notes of a data set.
+ * It also allows the user to generate CSV files of the data set, which
+ * are created in a directory MainMenuActivity.DATA_DIR in the root directory.
+ * This directory can be accessed via a computer through USB mounting.
+ * 
+ * @author leehsueh
+ *
+ */
 public class SensorDataDetailActivity extends Activity {
-	
+	/* constants for dialogs; used in onCreateDialog() */
 	public static final int DIALOG_SAVE_ID = 1;
 	public static final int DIALOG_SAVE_ERROR_ID = 2;
 	
+	/* database stuff */
 	private SensorDataDB mDB;
 	Long mRowId;
-
+	
+	/* UI widget stuff */
 	private EditText mNameEditText, mNotesEditText;
 	private TextView mDataSensorsTextView;
 	private Button mWriteToFileButton;
@@ -35,16 +47,18 @@ public class SensorDataDetailActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-
+		
+		// UI set up and binding of widgets
 		setContentView(R.layout.sensor_saved_data_detail);
-
 		mNameEditText = (EditText) findViewById(R.id.editName);
 		mNotesEditText = (EditText) findViewById(R.id.editNotes);
 		mDataSensorsTextView = (TextView) findViewById(R.id.dataComponents);
 		mWriteToFileButton = (Button) findViewById(R.id.writeToFileButton);
 
+		// get the row id of the data set that we want to view/edit
+		// should be passed in by SensorDataListActivity when user
+		// selects a data set
 		mRowId = null;
-
 		if (bundle == null) { // initially, Intent -> extras -> rowID
 			Bundle extras = getIntent().getExtras();
 			if (extras != null
@@ -54,12 +68,15 @@ public class SensorDataDetailActivity extends Activity {
 		} else { // tricky: recover mRowId from kill destroy/create cycle
 			mRowId = bundle.getLong(SAVE_ROW);
 		}
-
+		
+		// setup and open the database
 		mDB = new SensorDataDB(this);
 		mDB.open();
-
+		
+		// populate the UI widgets with the database record
 		dbToUI();
 
+		// set up the button that allows users to create CSV files of the data
 		mWriteToFileButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -90,6 +107,7 @@ public class SensorDataDetailActivity extends Activity {
 			}
 		});
 		
+		// OK button for going back to the list of data sets
 		Button button = (Button) findViewById(R.id.okButton);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -138,10 +156,8 @@ public class SensorDataDetailActivity extends Activity {
 								+ ": " + component.getValue().size()
 								+ " points";
 						mDataSensorsTextView.setText(text);
-
 					}
 				}
-				
 				
 			} catch (Exception e) {
 				mDataSensorsTextView
@@ -157,7 +173,7 @@ public class SensorDataDetailActivity extends Activity {
 	 * Generates a CSV string of data from a sensor and its components
 	 * @param sensorType
 	 * @param dataForSensor
-	 * @return
+	 * @return CSV string of the data, which can be used as input to a text file
 	 */
 	public String generateTextDataForSensor(int sensorType,
 			Map<String, List<Float>> dataForSensor) {
@@ -193,7 +209,7 @@ public class SensorDataDetailActivity extends Activity {
 	 * @param sensorType
 	 * @param dataForSensor
 	 * @param timestamp
-	 * @return
+	 * @return true if successful, otherwise false
 	 */
 	private boolean writeDataToFile(int sensorType, Map<String, List<Float>> dataForSensor, long timestamp) {
 		boolean mExternalStorageAvailable = false;
@@ -236,7 +252,7 @@ public class SensorDataDetailActivity extends Activity {
 		    	FileOutputStream out = new FileOutputStream(filePath + fileName);
 		    	out.write(csvData.getBytes());
 		    	out.close();
-		    	Log.v(MainMenuActivity.LOG_TAG, "File saved in " + getFilesDir().getAbsolutePath());
+		    	Log.v(MainMenuActivity.LOG_TAG, "File saved in " + filePath + fileName);
 		    	return true;
 		    } catch (Exception e) {
 		    	Log.v(MainMenuActivity.LOG_TAG, "Error writing data! " + e.getMessage());
@@ -260,13 +276,11 @@ public class SensorDataDetailActivity extends Activity {
 		String title = mNameEditText.getText().toString();
 		String notes = mNotesEditText.getText().toString();
 
-		// Not null = edit of existing row, or it's new but we saved it
-		// previously,
-		// so now it has a rowId anyway.
+		// update the database record
 		if (mRowId != null) {
 			mDB.updateRow(mRowId, mDB.createContentValues(title, notes));
 		} else {
-			mRowId = mDB.createRow(mDB.createContentValues(title, notes));
+			Log.v(MainMenuActivity.LOG_TAG, "Something wrong...row id not set!");
 		}
 	}
 
@@ -282,7 +296,7 @@ public class SensorDataDetailActivity extends Activity {
 		}
 	}
 	
-	/* dialog stuff */
+	/* dialog stuff; mainly to display a success or error message from saving */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Context mContext = getApplicationContext();		

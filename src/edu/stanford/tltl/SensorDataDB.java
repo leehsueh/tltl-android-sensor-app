@@ -120,11 +120,6 @@ public class SensorDataDB {
 			null, null, null, null,
 			SensorDataDB.KEY_TIMESTAMP + " DESC"  // order-by, "DESC" for descending
 		);
-		
-		// Could pass for third arg to filter in effect:
-		// TodoDatabaseHelper.KEY_STATE + "=0"
-		
-		// query() is general purpose, here we show the most common usage.
 	}
 
 	/** Returns a cursor for the given row id. Caller should close or manage the cursor. */
@@ -143,7 +138,7 @@ public class SensorDataDB {
 	 * Converts any serializable object, namely sensorData data structure, into a byte array
 	 * so it can be stored in the sqlite database.
 	 * @param obj
-	 * @return
+	 * @return byte array of the serialized sensorData object
 	 * @throws IOException
 	 */
 	public byte[] serializableObjectToByteArray(Serializable obj) throws IOException {
@@ -158,7 +153,7 @@ public class SensorDataDB {
 	/**
 	 * Gets the sensorData data structure back from byte array stored in the database
 	 * @param byteArray
-	 * @return
+	 * @return recovered sensorData data structure
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
@@ -200,9 +195,9 @@ public class SensorDataDB {
 	}
 	
 	// Helper for database open, create, upgrade.
-	// Here written as a private inner class to TodoDB.
+	// Here written as a private inner class.
 	private static class SensorDataDBHelper extends SQLiteOpenHelper {
-		// SQL text to create table (basically just string or integer)
+		// SQL text to create table
 		private static final String DATABASE_CREATE =
 			"create table " + DATABASE_TABLE + " (" +
 					SensorDataDB.KEY_ROWID + " integer primary key autoincrement, " +

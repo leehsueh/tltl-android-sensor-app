@@ -20,7 +20,14 @@ import org.openintents.sensorsimulator.hardware.SensorManagerSimulator;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class TLTLSensorActivity extends Activity implements SensorEventListener, org.openintents.sensorsimulator.hardware.SensorEventListener {
+/**
+ * This class describes the live outputs view.
+ * Some commented code is for using the simulator instead of the hardware, if
+ * there is no physical device to test on (MUCh easier to just always test on a device)
+ * @author leehsueh
+ *
+ */
+public class TLTLSensorActivity extends Activity implements SensorEventListener {	//, org.openintents.sensorsimulator.hardware.SensorEventListener {
 	boolean mUserSimulator = false;
 	int mSensorSamplingRate = SensorManager.SENSOR_DELAY_UI;
 
@@ -160,28 +167,28 @@ public class TLTLSensorActivity extends Activity implements SensorEventListener,
 		}
 	}
 
-	@Override
-	/**
-	 * onAccuracyChanged override for the simulator event listener
-	 */
-	public void onAccuracyChanged(
-			org.openintents.sensorsimulator.hardware.Sensor sensor, int arg1) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	/**
+//	 * onAccuracyChanged override for the simulator event listener
+//	 */
+//	public void onAccuracyChanged(
+//			org.openintents.sensorsimulator.hardware.Sensor sensor, int arg1) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
-	@Override
-	/**
-	 * onSensorChanged override for the simulator event listener
-	 */
-	public void onSensorChanged(
-			org.openintents.sensorsimulator.hardware.SensorEvent event) {
-		synchronized (this) {
-			int sensorType = event.type;
-			updateSensorValues(sensorType, event.values);
-		}
-		
-	}
+//	@Override
+//	/**
+//	 * onSensorChanged override for the simulator event listener
+//	 */
+//	public void onSensorChanged(
+//			org.openintents.sensorsimulator.hardware.SensorEvent event) {
+//		synchronized (this) {
+//			int sensorType = event.type;
+//			updateSensorValues(sensorType, event.values);
+//		}
+//		
+//	}
 	
 	private void updateSensorValues(int sensorType, float[] values) {
 		switch (sensorType) {

@@ -21,8 +21,26 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+/**
+ * The activity for the main menu screen when the app is first opened.
+ * Also stores constant strings and values that are used in other activities, mostly to index data.
+ * 
+ * This activity shows a list of supported sensors, enables the user to drill down for each to mark
+ * certain components of the sensor to be recorded, and has access to other screens (e.g. 
+ * to view live sensor outputs, view saved recorded sensor data, and enter record mode).
+ * 
+ * When users mark components to be recorded/not recorded, this activity saves those changes in 
+ * SharedPreferences indexed by the PREFS_NAME constant string. Each individual component is 
+ * indexed by the REC_XXX_XXX keys.
+ * 
+ * There is also a sampling rate slider which has discrete values used by android to determine 
+ * a sampling rate.
+ * 
+ * @author leehsueh
+ *
+ */
 public class MainMenuActivity extends ListActivity {
-	public static final String LOG_TAG = "TLTL Sensor App";
+	public static final String LOG_TAG = "TLTL Sensor App";	// tag used for logging
 	public static final String RATE_KEY = "RATE";
 	public static final String PREFS_NAME = "RECORD_SETTINGS";
 	public static final String SENSOR_TYPE = "SENSOR_TYPE";
@@ -44,14 +62,26 @@ public class MainMenuActivity extends ListActivity {
 	// directory where data files can be stored
 	public static final String DATA_DIR = "TLTL_Sensor_Data";
 	
-	
+	/* Possible sampling rate constants */
 	public static final int[] SAMPLE_RATES = {
 		SensorManager.SENSOR_DELAY_UI,
 		SensorManager.SENSOR_DELAY_NORMAL,
 		SensorManager.SENSOR_DELAY_GAME,
 		SensorManager.SENSOR_DELAY_FASTEST
 	};
+	private int mSampleRate = SAMPLE_RATES[0];
 	
+	/* UI bindings */
+	ListView mSensorList;
+	RadioGroup mSampleRateRadioGroup;
+	SeekBar mSampleSlider;
+	Button mListOutputsButton, mRecordButton, mListDataButton;
+	
+	/* Sensor information */
+	private String[] sensorNames;
+	private int[] sensorTypes;
+	
+	/* Utility for mapping sensor type constants to readable names */
 	private static Map<Integer, String> sensorTypesToNames;
 	public static Map<Integer, String> getSensorTypeToName() {
 		if (sensorTypesToNames == null) {
@@ -68,21 +98,12 @@ public class MainMenuActivity extends ListActivity {
 		return sensorTypesToNames;
 	}
 	
-	private int mSampleRate = SAMPLE_RATES[0];
-	
-	ListView mSensorList;
-	RadioGroup mSampleRateRadioGroup;
-	SeekBar mSampleSlider;
-	Button mListOutputsButton, mRecordButton, mListDataButton;
-	
-	private String[] sensorNames;
-	private int[] sensorTypes;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
+		// iterate through the available sensors and add them to the list of supported ones
 		SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		List<Sensor> sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL);
 		sensorNames = new String[sensorList.size()];
@@ -93,22 +114,21 @@ public class MainMenuActivity extends ListActivity {
 			sensorTypes[i] = sensorList.get(i).getType();
 		}
 		
+		// bind the list of available sensors to the UI ListView
 		ListAdapter listAdapter = new ArrayAdapter<String>(this, R.layout.sensor_list_item, sensorNames);
 		setListAdapter(listAdapter);
+		
+		// setup the sampling rate slider to update the rate as the user makes changes
 		mSampleSlider = (SeekBar) findViewById(R.id.seekBar1);
 		mSampleSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 				Log.v(LOG_TAG, "Seek bar progress: " + seekBar.getProgress());
 				setmSampleRate(seekBar.getProgress());
 			}
-			
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
 			}
-			
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
@@ -132,6 +152,7 @@ public class MainMenuActivity extends ListActivity {
 			}
 		});
 		
+		// button for viewing saved recorded data
 		mListDataButton = (Button) findViewById(R.id.listDataButton);
 		mListDataButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -141,6 +162,7 @@ public class MainMenuActivity extends ListActivity {
 			}
 		});
 		
+		// button for viewing live sensor outputs
 		mListOutputsButton = (Button) findViewById(R.id.button2);
 		mListOutputsButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -150,6 +172,8 @@ public class MainMenuActivity extends ListActivity {
 				startActivity(intent);
 			}
 		});
+		
+		// button for entering record mode
 		mRecordButton = (Button) findViewById(R.id.button3);
 		mRecordButton.setOnClickListener(new OnClickListener() {
 			
@@ -164,6 +188,11 @@ public class MainMenuActivity extends ListActivity {
 	}
 	
 	@Override
+	/**
+	 * When a sensor in a list is clicked, drill down to the activity that lets you 
+	 * mark which components of the sensor to record. Have to pass in the sensor
+	 * type and name.
+	 */
 	protected void onListItemClick(ListView l, View v, int position, long rowId) {
 		super.onListItemClick(l, v, position, rowId);
 		Log.v(MainMenuActivity.LOG_TAG, "Row " + position + " was tapped");
@@ -173,6 +202,8 @@ public class MainMenuActivity extends ListActivity {
 		startActivity(intent);
 	}
 
+	/* Accessor methods */
+	
 	public int getmSampleRate() {
 		return mSampleRate;
 	}
